@@ -26,11 +26,6 @@ app.mount("/static", StaticFiles(directory="static"), name="static")
 class Query(BaseModel):
     message: str
 
-# testing
-# @app.get("/")
-# def read_root():
-#     return {"message": "Chatbot is running"}
-
 def load_faq_from_csv(file_path="faq.csv"):
     faq_entries = []
     with open(file_path, newline='', encoding='utf-8') as csvfile:
