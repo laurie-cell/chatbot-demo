@@ -92,7 +92,7 @@
 
       messages.innerHTML += `<div class="message"><div class="user">You:</div> ${userMessage}</div>`;
 
-      const res = await fetch('http://localhost:8000/chat', {
+      const res = await fetch('https://chatbot-demo-6hks.onrender.com/chat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: userMessage })
