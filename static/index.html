@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Biotech Assistant</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f4f6f8;
+      margin: 0;
+      padding: 0;
+    }
+    header {
+      background-color: #2a9d8f;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+      font-size: 1.5rem;
+    }
+    .container {
+      max-width: 700px;
+      margin: 2rem auto;
+      padding: 2rem;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    }
+    .messages {
+      margin-bottom: 1rem;
+      max-height: 300px;
+      overflow-y: auto;
+    }
+    .message {
+      margin-bottom: 1rem;
+    }
+    .user {
+      font-weight: bold;
+      color: #264653;
+    }
+    .bot {
+      background-color: #e0f7f1;
+      padding: 0.5rem;
+      border-radius: 5px;
+    }
+    input[type="text"] {
+      width: 80%;
+      padding: 0.5rem;
+      font-size: 1rem;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      background-color: #2a9d8f;
+      color: white;
+      border: none;
+      cursor: pointer;
+      margin-left: 0.5rem;
+      border-radius: 4px;
+    }
+    button:hover {
+      background-color: #21867a;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    Biotech Chat Assistant
+  </header>
+
+  <div class="container">
+    <p><strong>Welcome!</strong> Ask me anything about our products, policies, or company. I'm here to help.</p>
+
+    <div class="messages" id="messages">
+      <!-- Messages will appear here -->
+    </div>
+
+    <form id="chatForm">
+      <input type="text" id="userInput" placeholder="Type your question..." required>
+      <button type="submit">Send</button>
+    </form>
+  </div>
+
+  <script>
+    const form = document.getElementById('chatForm');
+    const input = document.getElementById('userInput');
+    const messages = document.getElementById('messages');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const userMessage = input.value;
+      input.value = '';
+
+      messages.innerHTML += `<div class="message"><div class="user">You:</div> ${userMessage}</div>`;
+
+      const res = await fetch('http://localhost:8000/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ message: userMessage })
+      });
+      const data = await res.json();
+
+      messages.innerHTML += `<div class="message bot"><div><strong>Assistant:</strong> ${data.response}</div></div>`;
+      messages.scrollTop = messages.scrollHeight;
+    });
+  </script>
+</body>
+</html>
